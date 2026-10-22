@@ -42,21 +42,6 @@
 - 查詢關鍵字只會由你的瀏覽器直接送到各書店網站
 - 完整內容：[隱私權政策](store/privacy-policy.md)
 
-## 運作方式
-- 比價頁（`compare.html`）是擴充功能自己的頁面，`manifest.json` 宣告了各書店的 `host_permissions`，所以可以直接跨站請求，不受 CORS 限制
-- 請求會帶著你在各書店的 cookie（`credentials: 'include'`），Cloudflare 驗證通過的紀錄也在 cookie 裡
-- 不破解任何驗證，被擋就請你自己到書店頁面完成
-
-| 書店 | 資料來源 |
-|---|---|
-| 博客來 | 搜尋頁 HTML：`search.books.com.tw/search/query/key/<關鍵字>/cat/all`，每筆是 `div.table-td[id^=prod-itemlist-]` |
-| 誠品 | 官網用的 API：`athena.eslite.com/api/v2/search?q=&size=&start=`，回 JSON（`hits.hit[].fields`） |
-| 金石堂 | 搜尋頁 HTML：`www.kingstone.com.tw/search/key/<關鍵字>`，每筆是 `.division1`，分類在 `.classbox span`，價格在 `.buymixbox`（「79折特價260元」） |
-| 三民 | 搜尋頁 HTML：`www.sanmin.com.tw/search?ct=k&qu=`（`ct=k` 是全部欄位），每筆是 `.sProduct`，裝訂 `.Pack` 為「電子書」即電子書 |
-| TAAZE | 搜尋頁 HTML：`www.taaze.tw/rwd_searchResult.html?keyType[]=0&keyword[]=`，每筆是 `.media[rel]`，價格、書名、裝訂在 `data-*` 屬性；二手書顯示最低二手價 |
-| 讀書共和國 | 搜尋頁 HTML：`www.bookrep.com.tw/?md=gwindex&cl=book&at=search&query=&search_select=`，每筆是 `#re_list > li.list_li`，優惠價在 `.red`、定價在 `.del`；一頁 10 筆，電子書頁面是連到其他書店所以不查 |
-| 讀墨 | 搜尋頁 HTML：`readmoo.com/search/keyword?q=`，每筆是 `.listItem-box`，價格在 `.our-price` 的 `aria-label` |
-
 ## 檔案
 | 檔案 | 用途 |
 |---|---|
@@ -68,25 +53,11 @@
 | `stores/common.js` | 共用：抓取、Cloudflare 驗證偵測、數字解析 |
 | `icons/icon-{16,32,48,128}.png` | 擴充功能圖示（工具列、擴充功能清單、比價頁分頁圖示） |
 | `tools/make-icons.mjs` | 產生上面的圖示：`node tools/make-icons.mjs`（只用 Node 內建模組，會覆蓋 `icons/` 裡的檔案） |
-| `tools/pack.mjs` | 打包上架用的 zip（見下方「上架」） |
+| `tools/pack.mjs` | 打包上架用的 zip：先調高 `manifest.json` 的 `version`，再執行 `node tools/pack.mjs` → `dist/bookbb-<版本>.zip` |
 | `tools/shot.html` / `tools/shot.js` | 商店截圖用的示範頁：載入真正的比價頁，書店請求改用示範資料 |
 | `tools/promo.html` | 商店小型宣傳圖（440×280）的版面 |
 | `store/privacy-policy.md` | 隱私權政策（商店頁連結到這裡） |
 | `dist/` | 打包產生的 zip（不進版控，可隨時重新產生） |
-
-## 上架（Chrome 線上應用程式商店）
-- 打包：先調高 `manifest.json` 的 `version`，再執行 `node tools/pack.mjs` → 產生 `dist/bookbb-<版本>.zip`
-  - 用白名單收檔（`manifest.json`、`background.js`、`compare.*`、`stores/*.js`、`icons/*.png`），新增其他執行時需要的檔案要改 `tools/pack.mjs`
-- 商店摘要取自 `manifest.json` 的 `description`；摘要和詳細說明不要逐一列出書店名稱，1.0.0 曾因「關鍵字過多」被拒
-- 重拍截圖、宣傳圖：先在 repo 資料夾啟動靜態伺服器（`python -m http.server 8765 --bind 127.0.0.1`），再用 Edge 無頭模式截圖（PowerShell）：
-  ```powershell
-  $edge = 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
-  & $edge --headless=new --hide-scrollbars --user-data-dir="$env:TEMP\bookbb-shot" --window-size=1280,800 --virtual-time-budget=20000 --screenshot="$PWD\store\screenshot-1.png" 'http://localhost:8765/tools/shot.html?q=原子習慣'
-  & $edge --headless=new --hide-scrollbars --user-data-dir="$env:TEMP\bookbb-shot" --window-size=440,280 --virtual-time-budget=5000 --screenshot="$PWD\store\promo-440x280.png" 'http://localhost:8765/tools/promo.html'
-  ```
-  - 只看電子書的版本：網址加 `&format=電子書`
-  - 指令會馬上返回，Edge 在背景截圖，幾秒後檔案才會出現；連續截兩張時要等前一張完成
-  - 誠品的圖片主機會擋無頭瀏覽器，示範頁把誠品封面換成博客來同一本書的封面
 
 ## 修改
 - 不需要 build，改完到 `chrome://extensions` 按擴充功能上的重新載入圖示即可
