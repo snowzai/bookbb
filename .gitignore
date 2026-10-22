@@ -1,6 +1,7 @@
-# 文件（README、上架說明、隱私權政策等）不進版控
+# 文件（README、上架說明等）不進版控；隱私權政策例外，商店需要公開網址
 *.md
-store/
+store/*
+!store/privacy-policy.md
 
 # 打包產物：node tools/pack.mjs 可以重新產生
 dist/
