@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "書比比 BookBB",
+  "short_name": "書比比",
+  "version": "1.0.0",
+  "description": "一次查詢博客來、誠品、金石堂、三民、TAAZE、讀書共和國、讀墨的書價，紙本與電子書分開比，馬上找出最便宜的通路。",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "書比比",
+    "default_icon": { "16": "icons/icon-16.png", "32": "icons/icon-32.png" }
+  },
+  "background": { "service_worker": "background.js", "type": "module" },
+  "permissions": ["contextMenus"],
+  "host_permissions": [
+    "https://athena.eslite.com/*",
+    "https://readmoo.com/*",
+    "https://search.books.com.tw/*",
+    "https://www.kingstone.com.tw/*",
+    "https://www.sanmin.com.tw/*",
+    "https://www.taaze.tw/*",
+    "https://www.bookrep.com.tw/*"
+  ]
+}

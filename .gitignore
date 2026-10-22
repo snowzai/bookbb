@@ -1,0 +1,9 @@
+# 文件（README、上架說明、隱私權政策等）不進版控
+*.md
+store/
+
+# 打包產物：node tools/pack.mjs 可以重新產生
+dist/
+
+# 本機開發設定
+.claude/

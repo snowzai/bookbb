@@ -1,0 +1,114 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f6fa;
+  --card: #fff;
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --faint: #9ca3af;
+  --primary: #2563eb;
+  --primary-weak: #eff6ff;
+  --green: #15803d;
+  --green-bg: #f0fdf4;
+  --green-border: #bbf7d0;
+  --red: #dc2626;
+  --radius: 12px;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 1px 3px rgba(16, 24, 40, .06);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 -apple-system, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
+a { color: inherit; }
+svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- 標題列：品牌、搜尋框、版本切換 ---------- */
+.topbar { position: sticky; top: 0; z-index: 10; background: rgba(255, 255, 255, .92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+.topbar-inner { max-width: 1400px; margin: 0 auto; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.logo { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--primary); color: #fff; }
+.logo svg { width: 20px; height: 20px; }
+.brand-name { font-size: 16px; font-weight: 700; line-height: 1.2; }
+.brand-en { margin-left: 2px; font-size: 12px; font-weight: 600; color: var(--primary); letter-spacing: .02em; }
+.brand-sub { font-size: 12px; color: var(--muted); }
+
+.search { flex: 1 1 360px; max-width: 640px; display: flex; align-items: center; gap: 8px; padding: 4px 4px 4px 12px; background: var(--card); border: 1px solid var(--border-strong); border-radius: 10px; transition: border-color .15s, box-shadow .15s; }
+.search:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, .15); }
+.search-icon { width: 18px; height: 18px; color: var(--faint); flex-shrink: 0; }
+.search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; font-size: 15px; padding: 6px 0; color: var(--text); }
+.search button { font: inherit; font-weight: 600; padding: 7px 18px; border: 0; border-radius: 7px; background: var(--primary); color: #fff; cursor: pointer; transition: background .15s; }
+.search button:hover { background: #1d4ed8; }
+
+.segmented { display: inline-flex; padding: 3px; background: #eef0f4; border-radius: 9px; }
+.segmented label { cursor: pointer; }
+.segmented input { position: absolute; opacity: 0; pointer-events: none; }
+.segmented span { display: block; padding: 5px 14px; border-radius: 7px; color: var(--muted); font-size: 13px; transition: background .15s, color .15s; }
+.segmented input:checked + span { background: var(--card); color: var(--text); font-weight: 600; box-shadow: var(--shadow); }
+.segmented input:focus-visible + span { outline: 2px solid var(--primary); }
+
+main { max-width: 1400px; margin: 0 auto; padding: 20px 16px 48px; }
+
+/* ---------- 摘要表：每家書店最符合的一筆 ---------- */
+#summary:empty { display: none; }
+#summary table { border-collapse: separate; border-spacing: 0; width: 100%; max-width: 760px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+#summary caption { text-align: left; font-size: 15px; font-weight: 700; padding: 0 2px 8px; }
+#summary th, #summary td { padding: 10px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+#summary tr:last-child > * { border-bottom: 0; }
+#summary thead th { background: #f9fafb; color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: .02em; }
+#summary tbody th { font-weight: 600; white-space: nowrap; width: 1%; }
+#summary td + td, #summary th + td, #summary thead th + th { border-left: 1px solid var(--border); }
+#summary td a { display: block; text-decoration: none; border-radius: 6px; }
+#summary td a:hover .t { color: var(--primary); text-decoration: underline; }
+#summary .p { font-size: 15px; font-weight: 700; }
+#summary .t { display: block; font-size: 12px; color: var(--muted); max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#summary .best { background: var(--green-bg); }
+#summary .best .p { color: var(--green); }
+#summary .best .p::after { content: "最低"; display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 999px; background: #dcfce7; color: var(--green); font-size: 11px; font-weight: 600; vertical-align: 2px; }
+#summary .muted { color: var(--faint); }
+#summary .hint { display: flex; gap: 6px; max-width: 760px; margin: 8px 2px 24px; font-size: 12px; color: var(--muted); }
+#summary .hint::before { content: "ⓘ"; color: var(--faint); }
+
+/* ---------- 各書店分欄 ---------- */
+#columns { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; align-items: start; }
+.col { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 4px 6px 8px; }
+.col h2 { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0; padding: 10px 8px; border-bottom: 1px solid var(--border); font-size: 15px; }
+.col h2 a { flex-shrink: 0; font-size: 12px; font-weight: 500; color: var(--primary); text-decoration: none; padding: 2px 8px; border-radius: 6px; }
+.col h2 a:hover { background: var(--primary-weak); }
+
+.status { font-size: 12px; color: var(--muted); padding: 8px 8px 4px; }
+.status.err { color: #b91c1c; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; margin: 8px 6px 4px; padding: 10px 12px; line-height: 1.6; }
+.status button { font: inherit; margin: 8px 6px 0 0; padding: 4px 12px; border: 1px solid var(--border-strong); border-radius: 6px; background: var(--card); color: var(--text); cursor: pointer; }
+.status button:hover { border-color: var(--primary); color: var(--primary); }
+/* 查詢中：顯示幾條骨架 */
+.status.loading { position: relative; padding-bottom: 150px; }
+.status.loading::after { content: ""; position: absolute; left: 8px; right: 8px; top: 34px; height: 116px; border-radius: 8px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, .7), transparent) 0 0 / 40% 100% no-repeat,
+    repeating-linear-gradient(#eef0f4 0 32px, transparent 32px 42px);
+  animation: shimmer 1.2s infinite; }
+@keyframes shimmer { from { background-position: -40% 0, 0 0; } to { background-position: 140% 0, 0 0; } }
+
+a.item { display: flex; gap: 12px; padding: 8px; border-radius: 8px; text-decoration: none; color: inherit; transition: background .12s; }
+a.item:hover { background: #f8fafc; }
+a.item:hover .name { color: var(--primary); }
+a.item img { width: 52px; height: 74px; object-fit: cover; border-radius: 4px; background: #eef0f4; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
+a.item > div { min-width: 0; }
+.cover-ph { display: grid; place-items: center; width: 52px; height: 74px; flex-shrink: 0; border-radius: 4px; background: #eef0f4; color: var(--faint); font-size: 10px; }
+.name { font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.meta { font-size: 12px; color: var(--muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; margin-top: 4px; }
+.price b { color: var(--red); font-size: 15px; }
+.price s { font-size: 12px; color: var(--faint); }
+.price .off { font-size: 11px; color: var(--red); background: #fef2f2; padding: 0 5px; border-radius: 4px; }
+.note { font-size: 11px; color: var(--muted); }
+
+.tag { font-size: 11px; padding: 0 6px; border-radius: 4px; background: #f3f4f6; color: var(--muted); }
+.tag.paper { background: var(--primary-weak); color: #1d4ed8; }
+.tag.ebook { background: #f5f3ff; color: #6d28d9; }
+.tag.audio { background: #fff7ed; color: #c2410c; }
+.tag.used { background: #fefce8; color: #a16207; }
+
+@media (max-width: 640px) {
+  .brand-sub { display: none; }
+  #summary th, #summary td { padding: 8px 10px; }
+  #summary .t { max-width: 140px; }
+}

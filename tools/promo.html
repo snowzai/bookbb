@@ -1,0 +1,38 @@
+<!doctype html>
+<!-- 商店小型宣傳圖 440×280：用無頭 Edge 截圖產生 store/promo-440x280.png（指令見 README） -->
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; width: 440px; height: 280px; overflow: hidden; }
+  body {
+    display: flex; flex-direction: column; justify-content: center; gap: 18px; box-sizing: border-box; padding: 0 36px;
+    background: radial-gradient(circle at 85% 15%, #3b82f6 0, transparent 55%), linear-gradient(135deg, #2563eb, #1e40af);
+    color: #fff; font-family: -apple-system, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  }
+  .brand { display: flex; align-items: center; gap: 16px; }
+  .logo { display: grid; place-items: center; width: 72px; height: 72px; border-radius: 18px; background: #fff; color: #2563eb; box-shadow: 0 8px 24px rgba(15, 23, 42, .25); }
+  .logo svg { width: 42px; height: 42px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .name { font-size: 40px; font-weight: 800; line-height: 1.1; letter-spacing: .02em; }
+  .en { font-size: 18px; font-weight: 600; opacity: .85; letter-spacing: .06em; }
+  .tagline { font-size: 21px; font-weight: 700; line-height: 1.4; }
+  .chips { display: flex; gap: 8px; margin-top: -6px; }
+  .chips span { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: rgba(255, 255, 255, .18); }
+  /* 右下角的價格標籤裝飾 */
+  .deco { position: absolute; right: -18px; bottom: -28px; width: 170px; height: 170px; color: rgba(255, 255, 255, .1); transform: rotate(-12deg); }
+  .deco svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.5; }
+</style>
+</head>
+<body>
+  <div class="deco" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></div>
+  <div class="brand">
+    <span class="logo"><svg viewBox="0 0 24 24"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span>
+    <div>
+      <div class="name">書比比</div>
+      <div class="en">BookBB</div>
+    </div>
+  </div>
+  <div class="tagline">一次比較 7 家網路書店的書價</div>
+  <div class="chips"><span>紙本</span><span>電子書</span><span>最低價一眼看到</span></div>
+</body>
+</html>
