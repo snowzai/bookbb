@@ -6,7 +6,7 @@ import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { crc32 } from './crc32.mjs';
 
 const ROOT = new URL('../', import.meta.url);
-const FILES = ['manifest.json', 'background.js', 'compare.html', 'compare.css', 'compare.js'];
+const FILES = ['manifest.json', 'background.js', 'compare.html', 'compare.css', 'compare.js', 'ui.js', 'saved.js', 'drawer.js'];
 const DIRS = { stores: /\.js$/, icons: /\.png$/ };
 
 const listFiles = async () => {
@@ -27,6 +27,21 @@ const checkManifest = (manifest, files) => {
   ].filter(Boolean);
   const missing = refs.filter((f) => !files.includes(f));
   if (missing.length) throw new Error('manifest 引用的檔案沒有打包：' + missing.join(', '));
+};
+
+/* 檢查打包的 HTML／JS 引用的本地檔案（import、<script src>、<link href>）都有打包到 */
+const checkReferences = (entries, files) => {
+  const missing = [];
+  for (const { name, data } of entries) {
+    if (!/\.(js|html)$/.test(name)) continue;
+    const text = data.toString('utf8');
+    const refs = [...text.matchAll(/(?:from\s+|import\s*\(\s*|src=|href=)['"](\.{0,2}\/?[\w./-]+\.(?:js|css|png))['"]/g)].map((m) => m[1]);
+    for (const ref of refs) {
+      const resolved = new URL(ref, 'file:///root/' + name).pathname.replace('/root/', '');
+      if (!files.includes(resolved)) missing.push(name + ' → ' + resolved);
+    }
+  }
+  if (missing.length) throw new Error('引用的檔案沒有打包（請加到 tools/pack.mjs 的 FILES）：\n  ' + missing.join('\n  '));
 };
 
 /* ---------- ZIP（deflate，UTF-8 檔名） ---------- */
@@ -89,6 +104,7 @@ const files = await listFiles();
 const manifest = JSON.parse(await readFile(new URL('manifest.json', ROOT), 'utf8'));
 checkManifest(manifest, files);
 const entries = await Promise.all(files.map(async (name) => ({ name, data: await readFile(new URL(name, ROOT)) })));
+checkReferences(entries, files);
 const zip = buildZip(entries);
 
 await mkdir(new URL('dist/', ROOT), { recursive: true });

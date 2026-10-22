@@ -30,11 +30,29 @@
       <label><input type="radio" name="format" value="紙本"><span>紙本</span></label>
       <label><input type="radio" name="format" value="電子書"><span>電子書</span></label>
     </div>
+    <button id="savedBtn" class="saved-btn" type="button" aria-expanded="false" aria-controls="drawer">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      已保存<span id="savedCount" class="badge"></span>
+    </button>
   </div>
 </header>
 <main>
   <section id="summary"></section>
   <section id="columns"></section>
 </main>
+<div id="backdrop" class="backdrop" hidden></div>
+<aside id="drawer" class="drawer" aria-label="已保存" hidden>
+  <div class="drawer-head">
+    <div class="drawer-tabs" role="tablist">
+      <button type="button" role="tab" data-tab="queries" aria-selected="true">查詢<span id="queryCount" class="badge"></span></button>
+      <button type="button" role="tab" data-tab="favs" aria-selected="false">收藏<span id="favCount" class="badge"></span></button>
+    </div>
+    <button id="drawerClose" class="icon-btn" type="button" title="關閉" aria-label="關閉">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="drawerBody" class="drawer-body"></div>
+  <div id="drawerFoot" class="drawer-foot"></div>
+</aside>
 </body>
 </html>
