@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "書比比 BookBB",
   "short_name": "書比比",
-  "version": "1.0.0",
-  "description": "一次查詢博客來、誠品、金石堂、三民、TAAZE、讀書共和國、讀墨的書價，紙本與電子書分開比，馬上找出最便宜的通路。",
+  "version": "1.0.1",
+  "description": "一次比較多家台灣網路書店的書價，紙本與電子書分開比，馬上找出最便宜的通路。",
   "icons": {
     "16": "icons/icon-16.png",
     "32": "icons/icon-32.png",
