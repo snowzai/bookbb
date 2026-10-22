@@ -1,5 +1,6 @@
-# 文件（README、上架說明等）不進版控；隱私權政策例外，商店需要公開網址
+# 文件（上架說明等）不進版控；README 與隱私權政策例外（隱私權政策是商店要的公開網址）
 *.md
+!README.md
 store/*
 !store/privacy-policy.md
 
